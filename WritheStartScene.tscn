@@ -1,3 +1,46 @@
-[gd_scene format=3 uid="uid://dvcdei24blclk"]
+[gd_scene load_steps=4 format=3 uid="uid://dvcdei24blclk"]
+
+[ext_resource type="PackedScene" uid="uid://drnsy02tsg2rt" path="res://Player/Player.tscn" id="1_ckxkn"]
+[ext_resource type="Script" path="res://GameMaster.gd" id="1_f4g0r"]
+[ext_resource type="PackedScene" uid="uid://dosxkbaala0i0" path="res://Player/PlayerUI/PlayerUI.tscn" id="2_h6vpl"]
 
 [node name="Node2D" type="Node2D"]
+script = ExtResource("1_f4g0r")
+
+[node name="Game Over" type="Label" parent="."]
+visible = false
+offset_right = 40.0
+offset_bottom = 23.0
+text = "Game Over"
+
+[node name="PlayerUi" parent="." instance=ExtResource("2_h6vpl")]
+
+[node name="Player" parent="." instance=ExtResource("1_ckxkn")]
+position = Vector2(618, 316)
+
+[node name="Health Buttons" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 456.0
+offset_top = 422.0
+offset_right = 738.0
+offset_bottom = 600.0
+
+[node name="Remove Health" type="Button" parent="Health Buttons"]
+layout_mode = 0
+offset_left = 260.0
+offset_top = 3.0
+offset_right = 356.0
+offset_bottom = 52.0
+text = "Remove"
+
+[node name="Add Health" type="Button" parent="Health Buttons"]
+layout_mode = 0
+offset_right = 101.0
+offset_bottom = 53.0
+text = "Add"
+
+[connection signal="gameOver" from="Player" to="." method="_on_player_game_over"]
+[connection signal="updateUI" from="Player" to="PlayerUi" method="_on_player_update_ui"]
+[connection signal="pressed" from="Health Buttons/Remove Health" to="Player" method="_on_remove_health_pressed"]
+[connection signal="pressed" from="Health Buttons/Add Health" to="Player" method="_on_add_health_pressed"]
