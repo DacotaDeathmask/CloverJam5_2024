@@ -1,6 +1,7 @@
 extends CharacterBody2D
 
 const SPEED = 300.0
+const ROTATION_SPEED = 1.0
 var health = 10
 
 signal updateUI(change)
@@ -8,17 +9,14 @@ signal updateCurve(change)
 signal gameOver()
 
 func _physics_process(delta):
-	var Xdirection = Input.get_axis("ui_left", "ui_right")
-	var Ydirection = Input.get_axis("ui_up", "ui_down")
-	
-	if Xdirection:
-		velocity.x = Xdirection * SPEED
-	else:
-		velocity.x = move_toward(velocity.x, 0, SPEED)
-	if Ydirection:
-		velocity.y = Ydirection * SPEED
-	else:
-		velocity.y = move_toward(velocity.y, 0, SPEED)
+	var forward_movement = Input.get_axis("ui_down", "ui_up")
+	var rotation_direction = Input.get_axis("ui_left", "ui_right")
+
+	rotation += rotation_direction * ROTATION_SPEED * delta
+
+	var movement_direction = Vector2(0, -1).rotated(rotation)
+	velocity = movement_direction * forward_movement * SPEED
+
 
 	move_and_slide()
 
