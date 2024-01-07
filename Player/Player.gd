@@ -1,6 +1,10 @@
 extends CharacterBody2D
 
-const SPEED = 300.0
+const BASE_SPEED := 900.0
+const MAX_SPEED := 15000.0
+const ROTATION_SPEED := 1.0
+const STOP_THRESHOLD := 50.0
+const ACCELERATION_FACTOR := 3.0
 var health = 10
 
 signal updateUI(change)
@@ -8,17 +12,22 @@ signal updateCurve(change)
 signal gameOver()
 
 func _physics_process(delta):
-	var Xdirection = Input.get_axis("ui_left", "ui_right")
-	var Ydirection = Input.get_axis("ui_up", "ui_down")
-	
-	if Xdirection:
-		velocity.x = Xdirection * SPEED
-	else:
-		velocity.x = move_toward(velocity.x, 0, SPEED)
-	if Ydirection:
-		velocity.y = Ydirection * SPEED
-	else:
-		velocity.y = move_toward(velocity.y, 0, SPEED)
+	var rotation_direction = Input.get_axis("left", "right")
+
+	rotation += rotation_direction * ROTATION_SPEED * delta
+
+	var cursor_position = get_global_mouse_position()
+	var distance_to_cursor = position.distance_to(cursor_position)
+
+	var speed = 0
+	if distance_to_cursor > STOP_THRESHOLD:
+		var speed_ratio = min(distance_to_cursor / (MAX_SPEED - BASE_SPEED), 1.0)
+		speed = BASE_SPEED + speed_ratio * (MAX_SPEED - BASE_SPEED) * ACCELERATION_FACTOR
+
+	speed = min(speed, MAX_SPEED)
+
+	var movement_direction = Vector2(0, -1).rotated(rotation)
+	velocity = movement_direction * speed * delta
 
 	move_and_slide()
 
