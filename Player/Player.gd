@@ -13,7 +13,6 @@ var worm_segment = preload("res://Player/worm_segment.tscn")
 const SEGMENT_SIZE = 125
 
 signal updateUI(change)
-signal updateCurve(change)
 signal gameOver()
 
 func _ready():
@@ -60,7 +59,6 @@ func remove_segment():
 func addHealth():
 	health += 1
 	updateUI.emit(1)
-	updateCurve.emit(1)
 	add_segment()
 
 func removeHealth():
@@ -70,7 +68,6 @@ func removeHealth():
 	else:
 		remove_segment()
 		updateUI.emit(-1) 
-		updateCurve.emit(-1)
 
 #These two are for testing purposes
 func _on_remove_health_pressed():
