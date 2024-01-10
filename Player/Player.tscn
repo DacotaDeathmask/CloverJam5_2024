@@ -1,27 +1,21 @@
-[gd_scene load_steps=6 format=3 uid="uid://drnsy02tsg2rt"]
+[gd_scene load_steps=5 format=3 uid="uid://drnsy02tsg2rt"]
 
 [ext_resource type="Script" path="res://Player/Player.gd" id="1_l726u"]
-[ext_resource type="Texture2D" uid="uid://unb76g7w7fvf" path="res://icon.svg" id="2_pjtbt"]
-[ext_resource type="Script" path="res://Player/PlayerUI/PlayerCurve.gd" id="2_u6wu2"]
+[ext_resource type="PackedScene" uid="uid://b2cf8awkk2dge" path="res://Player/worm_segment.tscn" id="4_31ht7"]
 
-[sub_resource type="Curve2D" id="Curve2D_a4uf3"]
-resource_local_to_scene = true
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_y086d"]
+size = Vector2(128, 126)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_kq48t"]
-size = Vector2(126, 126)
+[sub_resource type="Curve2D" id="Curve2D_1qxm6"]
 
 [node name="Player" type="CharacterBody2D"]
 script = ExtResource("1_l726u")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("2_pjtbt")
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_y086d")
 
 [node name="Path2D" type="Path2D" parent="."]
-curve = SubResource("Curve2D_a4uf3")
-script = ExtResource("2_u6wu2")
+curve = SubResource("Curve2D_1qxm6")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-1, 0)
-shape = SubResource("RectangleShape2D_kq48t")
-
-[connection signal="updateCurve" from="." to="Path2D" method="_on_player_update_curve"]
+[node name="wormSegment" parent="Path2D" instance=ExtResource("4_31ht7")]
+position = Vector2(0, 0)
