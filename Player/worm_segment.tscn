@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://b2cf8awkk2dge"]
+
+[ext_resource type="Texture2D" uid="uid://unb76g7w7fvf" path="res://icon.svg" id="1_sfsff"]
+
+[node name="wormSegment" type="PathFollow2D"]
+position = Vector2(0, 125)
+rotates = false
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_sfsff")

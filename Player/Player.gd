@@ -5,12 +5,19 @@ const MAX_SPEED := 15000.0
 const ROTATION_SPEED := 1.0
 const STOP_THRESHOLD := 50.0
 const ACCELERATION_FACTOR := 3.0
-var health = 10
+var health = 5
+
+#Worm Length
+var worm_data : Array
+var worm_segment = preload("res://Player/worm_segment.tscn")
+const SEGMENT_SIZE = 125
 
 signal updateUI(change)
 signal updateCurve(change)
 signal gameOver()
 
+func _ready():
+	generate_worm()
 func _physics_process(delta):
 	var rotation_direction = Input.get_axis("left", "right")
 
@@ -30,17 +37,38 @@ func _physics_process(delta):
 	velocity = movement_direction * speed * delta
 
 	move_and_slide()
-
+	
+func generate_worm():
+	worm_data.clear()
+	health = 5
+	updateUI.emit(health)
+	
+	for i in range(health):
+		add_segment()
+		print("Segment Added")
+		
+func add_segment():
+	var wormSegment = worm_segment.instantiate()
+	wormSegment.position = Vector2(0, (worm_data.size() * SEGMENT_SIZE))
+	add_child(wormSegment)
+	worm_data.append(wormSegment)
+	
+func remove_segment():
+	remove_child(worm_data[-1])
+	worm_data.resize(worm_data.size() - 1)
+	
 func addHealth():
 	health += 1
 	updateUI.emit(1)
 	updateCurve.emit(1)
+	add_segment()
 
 func removeHealth():
 	health -= 1
 	if(health == 0):
 		gameOver.emit()
 	else:
+		remove_segment()
 		updateUI.emit(-1) 
 		updateCurve.emit(-1)
 
