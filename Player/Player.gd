@@ -77,7 +77,6 @@ func _on_remove_health_pressed():
 func _on_add_health_pressed():
 	addHealth()
 
-
 func _on_area_2d_area_entered(area):
 	if area.is_in_group("HardGround"):
 		current_speed_modifier = 0.5
