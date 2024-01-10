@@ -1,9 +1,0 @@
-[gd_scene load_steps=3 format=3 uid="uid://drnsy02tsg2rt"]
-
-[ext_resource type="Script" path="res://Player/Player.gd" id="1_l726u"]
-[ext_resource type="PackedScene" uid="uid://b2cf8awkk2dge" path="res://Player/worm_segment.tscn" id="4_31ht7"]
-
-[node name="Player" type="CharacterBody2D"]
-script = ExtResource("1_l726u")
-
-[node name="wormSegment" parent="." instance=ExtResource("4_31ht7")]
