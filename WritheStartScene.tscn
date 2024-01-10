@@ -1,8 +1,11 @@
-[gd_scene load_steps=4 format=3 uid="uid://dvcdei24blclk"]
+[gd_scene load_steps=7 format=3 uid="uid://dvcdei24blclk"]
 
 [ext_resource type="PackedScene" uid="uid://drnsy02tsg2rt" path="res://Player/Player.tscn" id="1_ckxkn"]
 [ext_resource type="Script" path="res://GameMaster.gd" id="1_f4g0r"]
 [ext_resource type="PackedScene" uid="uid://dosxkbaala0i0" path="res://Player/PlayerUI/PlayerUI.tscn" id="2_h6vpl"]
+[ext_resource type="PackedScene" uid="uid://6jyhv83e41q1" path="res://Env/TestHardGround.tscn" id="4_it6yo"]
+[ext_resource type="PackedScene" uid="uid://bptr8dnbtop51" path="res://Env/TestSoftGround.tscn" id="5_8kalg"]
+[ext_resource type="PackedScene" uid="uid://dm2a3gyigt2k1" path="res://Env/TestAboveGround.tscn" id="6_utch0"]
 
 [node name="Node2D" type="Node2D"]
 script = ExtResource("1_f4g0r")
@@ -39,6 +42,14 @@ layout_mode = 0
 offset_right = 101.0
 offset_bottom = 53.0
 text = "Add"
+
+[node name="TestHardGround" parent="." groups=["HardGround", "UnderGround"] instance=ExtResource("4_it6yo")]
+position = Vector2(-12, -8)
+
+[node name="TestSoftGround" parent="." instance=ExtResource("5_8kalg")]
+position = Vector2(6, 32)
+
+[node name="TestAboveGround" parent="." instance=ExtResource("6_utch0")]
 
 [connection signal="gameOver" from="Player" to="." method="_on_player_game_over"]
 [connection signal="updateUI" from="Player" to="PlayerUi" method="_on_player_update_ui"]

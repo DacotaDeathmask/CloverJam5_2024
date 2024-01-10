@@ -11,6 +11,11 @@ size = Vector2(128, 126)
 [node name="Player" type="CharacterBody2D"]
 script = ExtResource("1_l726u")
 
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="AreaCollisionDetector" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_y086d")
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_y086d")
 
@@ -19,3 +24,6 @@ curve = SubResource("Curve2D_1qxm6")
 
 [node name="wormSegment" parent="Path2D" instance=ExtResource("4_31ht7")]
 position = Vector2(0, 0)
+
+[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
+[connection signal="area_exited" from="Area2D" to="." method="_on_area_2d_area_exited"]

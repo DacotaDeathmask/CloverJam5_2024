@@ -6,6 +6,7 @@ const ROTATION_SPEED := 1.0
 const STOP_THRESHOLD := 50.0
 const ACCELERATION_FACTOR := 3.0
 var health = 5
+var current_speed_modifier := 1.0
 
 #Worm Length
 var worm_data : Array
@@ -33,7 +34,8 @@ func _physics_process(delta):
 	speed = min(speed, MAX_SPEED)
 
 	var movement_direction = Vector2(0, -1).rotated(rotation)
-	velocity = movement_direction * speed * delta
+	var final_speed = speed * current_speed_modifier
+	velocity = movement_direction * final_speed * delta
 
 	move_and_slide()
 	
@@ -74,3 +76,16 @@ func _on_remove_health_pressed():
 	removeHealth()
 func _on_add_health_pressed():
 	addHealth()
+
+
+func _on_area_2d_area_entered(area):
+	if area.is_in_group("HardGround"):
+		current_speed_modifier = 0.5
+		print(current_speed_modifier)
+	if area.is_in_group("SoftGround"):
+		current_speed_modifier = 1.0
+		print(current_speed_modifier)
+	if area.is_in_group("AboveGround"):
+		current_speed_modifier = 1.5
+		print(current_speed_modifier)
+
